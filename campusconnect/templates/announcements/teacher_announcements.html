@@ -1,0 +1,14 @@
+<h2>Announcements</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Add Announcement</button>
+</form>
+
+<ul>
+{% for a in announcements %}
+  <li>{{ a.title }} - {{ a.created_at }}</li>
+{% empty %}
+  <li>No announcements yet.</li>
+{% endfor %}
+</ul>

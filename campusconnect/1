@@ -1,0 +1,48 @@
+PS E:\campusconnect_project> venv\Scripts\activate
+(venv) PS E:\campusconnect_project> cd campusconnect
+(venv) PS E:\campusconnect_project\campusconnect> python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+(venv) PS E:\campusconnect_project\campusconnect> python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified some issues:
+
+WARNINGS:
+academics.Course.teacher_id: (fields.W122) 'max_length' is ignored when used with IntegerField.
+        HINT: Remove 'max_length' from field
+
+System check identified 1 issue (0 silenced).
+January 14, 2026 - 10:35:59
+Django version 5.2.5, using settings 'campusconnect.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+[14/Jan/2026 10:36:30] "GET / HTTP/1.1" 302 0
+[14/Jan/2026 10:36:31] "GET /accounts/login/ HTTP/1.1" 200 3096
+Not Found: /favicon.ico
+[14/Jan/2026 10:36:32] "GET /favicon.ico HTTP/1.1" 404 4586
+[14/Jan/2026 10:36:47,017] - Broken pipe from ('127.0.0.1', 23368)
+[14/Jan/2026 10:36:48] "POST /accounts/login/ HTTP/1.1" 302 0
+[14/Jan/2026 10:36:48] "GET / HTTP/1.1" 200 3994
+[14/Jan/2026 10:36:56] "GET /accounts/login/ HTTP/1.1" 200 3061
+[14/Jan/2026 10:37:05] "POST /accounts/login/ HTTP/1.1" 302 0
+[14/Jan/2026 10:37:05] "GET / HTTP/1.1" 200 3994
+[14/Jan/2026 10:37:10] "GET /accounts/teachers/ HTTP/1.1" 200 5504
+[14/Jan/2026 10:37:13] "GET / HTTP/1.1" 200 3994
+[14/Jan/2026 10:37:17] "GET /accounts/students/add/ HTTP/1.1" 200 5693
+[14/Jan/2026 10:37:20] "GET /attendance/attendance/manage/ HTTP/1.1" 200 2593
+[14/Jan/2026 10:37:25] "GET /academics/manage/ HTTP/1.1" 200 6891
+[14/Jan/2026 10:37:36] "GET /announcements/ HTTP/1.1" 200 3720
+[14/Jan/2026 10:37:47] "GET /academics/departments/ HTTP/1.1" 200 3067
+[14/Jan/2026 11:01:10] "GET /academics/departments/edit/1/ HTTP/1.1" 200 3201
+[14/Jan/2026 11:01:16] "GET /academics/departments/ HTTP/1.1" 200 3067
+[14/Jan/2026 11:01:20] "GET /accounts/teachers/ HTTP/1.1" 200 5504
+[14/Jan/2026 11:01:29] "GET / HTTP/1.1" 200 3994
+E:\campusconnect_project\campusconnect\accounts\views.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...

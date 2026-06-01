@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg p-4">
+        <h3 class="text-center mb-4 text-success">Edit Student</h3>
+
+
+        <form method="POST">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Name</label>
+            {{ form.name }}
+            <div class="text-danger">{{ form.name.errors }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Father Name</label>
+            {{ form.father_name }}
+            <div class="text-danger">{{ form.father_name.errors }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">CNIC</label>
+            {{ form.cnic }}
+            <div class="text-danger">{{ form.cnic.errors }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Roll No</label>
+            {{ form.roll_no }}
+            <div class="text-danger">{{ form.roll_no.errors }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Class Name</label>
+            {{ form.class_name }}
+            <div class="text-danger">{{ form.class_name.errors }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Class Section</label>
+            {{ form.class_section }}
+            <div class="text-danger">{{ form.class_section.errors }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Date of Birth</label>
+            {{ form.dob }}
+            <div class="text-danger">{{ form.dob.errors }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Address</label>
+            {{ form.address }}
+            <div class="text-danger">{{ form.address.errors }}</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Department</label>
+            {{ form.department }}
+            <div class="text-danger">{{ form.department.errors }}</div>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100">Update Student</button>
+        </form>
+
+        <a href="{% url 'student_list' %}" class="btn btn-link mt-3 w-100">⬅ Back to Student List</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

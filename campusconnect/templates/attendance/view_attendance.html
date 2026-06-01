@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>📅 Your Attendance</h2>
+
+{% if records %}
+<table class="table table-bordered" style="background-color: #f8f9fa;">
+    <thead>
+        <tr>
+            <th>Course</th>
+            <th>Total Classes</th>
+            <th>Attended</th>
+            <th>Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.sheet.course.title }}</td>
+            <td>{{ record.total_classes }}</td>
+            <td>{{ record.attended_classes }}</td>
+            <td>
+                {% if record.total_classes > 0 %}
+                    {{ record.attended_classes|floatformat:1|divisibleby:record.total_classes|mul:100 }}%
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert-info">
+    No attendance uploaded yet.
+</div>
+{% endif %}
+{% endblock %}

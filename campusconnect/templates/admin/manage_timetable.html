@@ -1,0 +1,40 @@
+<form method="post" class="bg-white p-4 rounded shadow-sm">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6 mb-3">{{ form.course.label_tag }} {{ form.course }}</div>
+        <div class="col-md-6 mb-3">{{ form.teacher.label_tag }} {{ form.teacher }}</div>
+        <div class="col-md-6 mb-3">{{ form.room_number.label_tag }} {{ form.room_number }}</div>
+        <div class="col-md-6 mb-3">{{ form.credit_hours.label_tag }} {{ form.credit_hours }}</div>
+    </div>
+
+    <h5 class="mt-4 fw-bold">Select Days & Specific Timings:</h5>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle border">
+            <thead class="table-light">
+                <tr>
+                    <th width="10%">Select</th>
+                    <th width="20%">Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for day in days %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selected_days" value="{{ day.id }}" class="form-check-input">
+                    </td>
+                    <td><strong>{{ day.name }}</strong></td>
+                    <td>
+                        <input type="time" name="start_time_{{ day.id }}" class="form-control">
+                    </td>
+                    <td>
+                        <input type="time" name="end_time_{{ day.id }}" class="form-control">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3 w-100">Add Schedule to Timetable</button>
+</form>

@@ -1,0 +1,58 @@
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Users</h6>
+        <div>Admins: <strong>{{ data.stats.users_admin }}</strong></div>
+        <div>Teachers: <strong>{{ data.stats.users_teacher }}</strong></div>
+        <div>Students: <strong>{{ data.stats.users_student }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Academics</h6>
+        <div>Courses: <strong>{{ data.stats.courses_count }}</strong></div>
+        <div>Assignments: <strong>{{ data.stats.assignments_count }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Announcements</h6>
+        <ul class="list-group list-group-flush">
+          {% for a in data.announcements %}
+            <li class="list-group-item">
+              <strong>{{ a.title }}</strong>
+              {% if a.course %}<span class="badge bg-secondary ms-1">{{ a.course.code }}</span>{% endif %}
+              <div class="small text-muted">{{ a.created_at }}</div>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">No announcements</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Upcoming Classes (All)</h6>
+        <ul class="list-group list-group-flush">
+          {% for s in data.upcoming_classes %}
+            <li class="list-group-item">
+              <strong>{{ s.course.code }}</strong> — {{ s.topic }} <small class="text-muted">{{ s.start_time }}</small>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">No upcoming classes</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

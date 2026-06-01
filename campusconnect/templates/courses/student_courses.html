@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Heading + Search ko same row me align karna -->
+    <div class="row align-items-center mb-4">
+        <!-- Left side: Heading -->
+        <div class="col-md-6 text-start">
+            <h2 class="mb-0">📚 Find Your Courses</h2>
+        </div>
+
+        <!-- Right side: Search form -->
+        <div class="col-md-6">
+            <form method="get" class="d-flex justify-content-end">
+                <label for="class_name" class="col-form-label me-2">Enter Your Class:</label>
+                <input type="text" id="class_name" name="class_name" 
+                       class="form-control me-2" style="max-width: 120px;" 
+                       value="{{ query_class }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    {% if courses %}
+        <h4 class="mb-3">Courses for "{{ query_class }}"</h4>
+
+        <table class="table table-striped table-hover shadow-sm rounded" style="background-color: #f8f9fa;">
+            <thead class="table-dark">
+                <tr>
+                    <th>Course Code</th>
+                    <th>Title</th>
+                    <th>Teacher</th>
+                    <th>Class</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ course.code }}</td>
+                        <td>{{ course.title }}</td>
+                        <td>{{ course.teacher|default:"No teacher" }} (ID: {{ course.teacher_id|default:"N/A" }})</td>
+                        <td>{{ course.class_name|default:"Not Assigned" }}</td>
+                        <td>{{ course.description|default:"No description" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif query_class %}
+        <div class="alert alert-warning shadow-sm">
+            No courses found for "{{ query_class }}"
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

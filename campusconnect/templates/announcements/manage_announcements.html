@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- Header + Add button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Announcements</h2>
+        {% if can_manage %}
+<a href="{% url 'announcements:add_announcement' %}" class="btn btn-success">
+    + Add New Announcement
+</a>
+{% endif %}
+
+    </div>
+
+    <!-- Table -->
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Created By</th>
+                <th>Created On</th>
+                {% if can_manage %}<th>Actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if announcements %}
+                {% for ann in announcements %}
+                    <tr>
+                        <td>{{ ann.title }}</td>
+                        <td>{{ ann.body }}</td>
+                        <td>{{ ann.created_by.username }}</td>
+                        <td>{{ ann.created_at|date:"M d, Y H:i" }}</td>
+                        {% if can_manage %}
+                            <td>
+                                <a href="{% url 'announcements:edit_announcement' ann.id %}" class="btn btn-sm btn-primary">Edit</a>
+                               <a href="{% url 'announcements:delete_announcement' ann.id %}" class="btn btn-sm btn-danger">Delete</a>
+
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">No announcements yet.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

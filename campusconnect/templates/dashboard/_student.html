@@ -1,0 +1,73 @@
+<div class="row g-3">
+  <div class="col-md-3">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Quick Stats</h6>
+        <div class="mt-2">Attendance: <strong>{{ data.stats.attendance_pct }}%</strong></div>
+        <div>Avg Grade: <strong>{{ data.stats.avg_grade }}</strong></div>
+        <div>Pending Assignments: <strong>{{ data.stats.pending_count }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Upcoming Classes</h6>
+        <ul class="list-group list-group-flush">
+          {% for s in data.upcoming_classes %}
+            <li class="list-group-item">
+              <strong>{{ s.course.code }}</strong> — {{ s.topic }}<br>
+              <small>{{ s.start_time }} – {{ s.end_time }} ({{ s.room }})</small>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">No upcoming classes</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Announcements</h6>
+        <ul class="list-group list-group-flush">
+          {% for a in data.announcements %}
+            <li class="list-group-item">
+              <strong>{{ a.title }}</strong>
+              {% if a.course %}<span class="badge bg-secondary ms-1">{{ a.course.code }}</span>{% endif %}
+              <div class="small text-muted">{{ a.created_at }}</div>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">No announcements</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Pending Assignments</h6>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle">
+            <thead><tr><th>Course</th><th>Title</th><th>Due</th></tr></thead>
+            <tbody>
+              {% for asg in data.pending_assignments %}
+                <tr>
+                  <td>{{ asg.course.code }}</td>
+                  <td>{{ asg.title }}</td>
+                  <td>{{ asg.due_at }}</td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="3" class="text-muted">All caught up 🎉</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

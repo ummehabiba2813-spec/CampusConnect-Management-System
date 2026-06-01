@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ object.code }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h4>{{ object.code }} — {{ object.title }}</h4>
+    <div class="text-muted">{{ object.description|default:"" }}</div>
+  </div>
+  <div>
+    {% if request.user.role == "ADMIN" %}
+      <a class="btn btn-outline-secondary btn-sm" href="{% url 'course-edit' object.pk %}">Edit</a>
+      <a class="btn btn-outline-danger btn-sm" href="{% url 'course-delete' object.pk %}">Delete</a>
+    {% endif %}
+  </div>
+</div>
+
+{% if request.user.role == "STUDENT" %}
+  <div class="mb-3">
+    <a class="btn btn-success btn-sm" href="{% url 'course-enroll' object.pk %}">Enroll</a>
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'course-unenroll' object.pk %}">Unenroll</a>
+  </div>
+{% endif %}
+
+{% if request.user.role == "TEACHER" and object.teacher_id == request.user.id %}
+  <div class="mb-3">
+    <a class="btn btn-success btn-sm" href="{% url 'material-upload' object.pk %}">Upload Material</a>
+    <a class="btn btn-primary btn-sm" href="{% url 'assignment-create' object.pk %}">Create Assignment</a>
+  </div>
+{% endif %}
+
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Materials</h6>
+        <ul class="list-group list-group-flush">
+          {% for m in object.materials.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <span class="badge bg-secondary me-2">{{ m.file_type }}</span>
+                <strong>{{ m.title }}</strong>
+                <div class="small text-muted">{{ m.uploaded_at }}</div>
+              </div>
+              <a class="btn btn-outline-primary btn-sm" href="{{ m.file.url }}" download>Download</a>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">No materials yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted">Assignments</h6>
+        <ul class="list-group list-group-flush">
+          {% for a in object.assignments.all %}
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <strong>{{ a.title }}</strong>
+                  <div class="small text-muted">Due: {{ a.due_at }}</div>
+                </div>
+                {% if request.user.role == "STUDENT" %}
+                  <a class="btn btn-sm btn-success" href="{% url 'submission-create' a.pk %}">Submit</a>
+                {% endif %}
+                {% if request.user.role == "TEACHER" and object.teacher_id == request.user.id %}
+                  <a class="btn btn-sm btn-outline-primary" href="{% url 'assignment-submissions' a.pk %}">View Submissions</a>
+                {% endif %}
+              </div>
+            </li>
+          {% empty %}
+            <li class="list-group-item text-muted">No assignments yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

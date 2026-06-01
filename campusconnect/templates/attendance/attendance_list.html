@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Attendance Sheets</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Teacher</th>
+            <th>Course</th>
+            <th>Class</th>
+            <th>Section</th>
+            <th>Students</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sheet in sheets %}
+        <tr>
+            <td>{{ sheet.teacher.get_full_name }}</td>
+            <td>{{ sheet.course.title }}</td>
+            <td>{{ sheet.class_name }}</td>
+            <td>{{ sheet.section }}</td>
+            <td>
+                {% for student in sheet.students.all %}
+                    {{ student.get_full_name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    No students
+                {% endfor %}
+            </td>
+            <td>{{ sheet.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No attendance sheets yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

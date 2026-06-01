@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Manage Courses</h2>
+
+    <!-- Add New Course Button -->
+    <div class="text-end mb-3">
+        <a href="{% url 'add_course' %}" class="btn btn-success">+ Add New Course</a>
+    </div>
+
+    <!-- Courses Table -->
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Code</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Teacher</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if courses %}
+                        {% for course in courses %}
+                        <tr>
+                            <td>{{ course.code }}</td>
+                            <td>{{ course.title }}</td>
+                            <td>{{ course.description }}</td>
+                            <td>{{ course.teacher }}</td>
+                            <td>{{ course.department }}</td>
+                            <td>
+                                <a href="{% url 'edit_course' course.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'delete_course' course.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No courses found</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Optional: show total courses count -->
+    <div class="mt-3">
+        <strong>Total Courses: {{ courses.count }}</strong>
+    </div>
+</div>
+{% endblock %}

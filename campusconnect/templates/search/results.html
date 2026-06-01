@@ -1,0 +1,19 @@
+<form method="get" action="{% url 'search' %}">
+  <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+  <button type="submit">Search</button>
+</form>
+
+<h3>Courses:</h3>
+{% for c in courses %}
+  <p>{{ c.name }} - {{ c.description }}</p>
+{% empty %}<p>No courses found.</p>{% endfor %}
+
+<h3>Students:</h3>
+{% for s in students %}
+  <p>{{ s.username }} - {{ s.email }}</p>
+{% empty %}<p>No students found.</p>{% endfor %}
+
+<h3>Teachers:</h3>
+{% for t in teachers %}
+  <p>{{ t.username }} - {{ t.email }}</p>
+{% empty %}<p>No teachers found.</p>{% endfor %}

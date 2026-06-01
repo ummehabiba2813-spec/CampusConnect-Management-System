@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-success shadow-lg">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Edit Announcement</h4>
+                </div>
+                <div class="card-body text-dark">
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- Title Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <!-- Body Field -->
+                        <div class="mb-3">
+                            <label for="{{ form.body.id_for_label }}" class="form-label">Body</label>
+                            {{ form.body }}
+                        </div>
+
+                        <!-- Created By (Read-only) -->
+                        <div class="mb-3">
+                            <label for="id_created_by" class="form-label">Created By</label>
+                            <input type="text" class="form-control" value="{{ form.instance.created_by.username }}" readonly>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-success w-100">Update Announcement</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'announcements:manage_announcements' %}" class="btn btn-secondary mt-2">⬅ Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

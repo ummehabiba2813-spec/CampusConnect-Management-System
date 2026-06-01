@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Submissions{% endblock %}
+{% block content %}
+<h5 class="mb-3">Submissions — {{ assignment.title }} ({{ assignment.course.code }})</h5>
+<div class="table-responsive">
+  <table class="table table-sm align-middle">
+    <thead><tr><th>Student</th><th>File</th><th>Submitted</th><th>Grade</th><th></th></tr></thead>
+    <tbody>
+      {% for s in submissions %}
+        <tr>
+          <td>{{ s.student.username }}</td>
+          <td>{% if s.file %}<a href="{{ s.file.url }}" download>Download</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+          <td>{{ s.submitted_at }}</td>
+          <td>{{ s.grade|default:"—" }}</td>
+          <td><a class="btn btn-sm btn-outline-primary" href="{% url 'submission-grade' s.pk %}">Grade</a></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5" class="text-muted">No submissions yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

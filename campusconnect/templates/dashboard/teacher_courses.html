@@ -1,0 +1,10 @@
+<h2>My Courses</h2>
+{% if courses %}
+  <ul>
+    {% for course in courses %}
+      <li>{{ course.title }} ({{ course.department.name }})</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No course assigned yet.</p>
+{% endif %}

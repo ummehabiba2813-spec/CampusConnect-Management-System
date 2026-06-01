@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Announcements{% endblock %}
+
+{% block content %}
+<h2>Announcements</h2>
+<ul class="list-group">
+    {% for ann in announcements %}
+        <li class="list-group-item">
+            <strong>{{ ann.title }}</strong> - {{ ann.created_at|date:"M d, Y" }}
+            <p>{{ ann.body }}</p>
+        </li>
+    {% empty %}
+        <li class="list-group-item">No announcements yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

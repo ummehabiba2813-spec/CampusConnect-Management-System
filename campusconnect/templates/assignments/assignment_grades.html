@@ -1,0 +1,16 @@
+<h2>Submissions To Grade</h2>
+{% if submissions %}
+  <table>
+    <tr><th>Course</th><th>Assignment</th><th>Student</th><th>Submitted At</th></tr>
+    {% for s in submissions %}
+      <tr>
+        <td>{{ s.assignment.course.title }}</td>
+        <td>{{ s.assignment.title }}</td>
+        <td>{{ s.student.username }}</td>
+        <td>{{ s.submitted_at }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% else %}
+  <p>Nothing to grade 🎉</p>
+{% endif %}

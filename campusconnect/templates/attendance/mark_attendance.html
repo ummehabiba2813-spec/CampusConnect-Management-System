@@ -1,0 +1,19 @@
+<h2>Mark Attendance for {{ course.title }}</h2>
+<form method="post">
+  {% csrf_token %}
+  <table>
+    <tr><th>Student</th><th>Status</th></tr>
+    {% for s in students %}
+    <tr>
+      <td>{{ s.username }}</td>
+      <td>
+        <select name="status_{{ s.id }}">
+          <option value="present">Present</option>
+          <option value="absent">Absent</option>
+        </select>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <button type="submit">Save Attendance</button>
+</form>

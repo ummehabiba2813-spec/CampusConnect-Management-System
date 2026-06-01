@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Teacher</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    
+    <div>
+        {{ form.name.label_tag }}<br>
+        {{ form.name }}
+        {{ form.name.errors }}
+    </div>
+<div>
+        {{ form.teacher_id.label_tag }}<br>
+        {{ form.teacher_id }}
+        {{ form.teacher_id.errors }}
+    </div>
+    <div>
+        {{ form.qualification.label_tag }}<br>
+        {{ form.qualification }}
+        {{ form.qualification.errors }}
+    </div>
+
+    <div>
+        {{ form.subject.label_tag }}<br>
+        {{ form.subject }}
+        {{ form.subject.errors }}
+    </div>
+
+    <div>
+        {{ form.class_name.label_tag }}<br>
+        {{ form.class_name }}
+        {{ form.class_name.errors }}
+    </div>
+
+    <div>
+        {{ form.experience_years.label_tag }}<br>
+        {{ form.experience_years }}
+        {{ form.experience_years.errors }}
+    </div>
+
+    <div>
+        {{ form.section.label_tag }}<br>
+        {{ form.section }}
+        {{ form.section.errors }}
+    </div>
+
+    <div>
+        {{ form.session.label_tag }}<br>
+        {{ form.session }}
+        {{ form.session.errors }}
+    </div>
+
+    <button type="submit" style="padding: 8px 15px; background-color: green; color: white; border: none; border-radius: 5px;">
+        Add Teacher
+    </button>
+</form>
+
+<a href="{% url 'teacher_list' %}" style="display: inline-block; margin-top: 10px;">⬅️ Back to Teacher List</a>
+{% endblock %}

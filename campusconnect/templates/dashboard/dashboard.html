@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h3 class="card-title">Welcome, {{ greeting }}</h3>
+    <p class="mb-0">Role: <strong>{{ role }}</strong></p>
+
+    {% if not user.email_verified %}
+      <div class="alert alert-warning mt-3">
+        Email not verified. <a href="{% url 'resend-verification' %}">Resend verification</a>
+      </div>
+    {% endif %}
+
+    <hr>
+
+    {% if user.role == "admin" %}
+  <!-- Admin Profile Info -->
+  {% if profile %}
+    <div class="card mb-4 shadow-sm border-0 rounded-4">
+      <div class="row g-0 align-items-center">
+        <div class="col-md-4 text-center p-3">
+          {% if profile.profile_picture %}
+            <img src="{{ profile.profile_picture.url }}" 
+                 class="img-fluid rounded-circle shadow-sm" width="150" height="150" alt="Profile Picture">
+          {% else %}
+            <img src="{% static 'images/default-avatar.png' %}" 
+                 class="img-fluid rounded-circle shadow-sm" width="150" height="150" alt="Default Picture">
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title text-success fw-bold mb-3">{{ profile.full_name }}</h5>
+            <p class="mb-1"><strong>🆔 CNIC:</strong> {{ profile.cnic }}</p>
+            <p class="mb-1"><strong>🎓 Qualification:</strong> {{ profile.qualification }}</p>
+            <p class="mb-1"><strong>📞 Phone:</strong> {{ profile.phone }}</p>
+            <p class="mb-0"><strong>🏠 Address:</strong> {{ profile.address }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+      <!-- Admin Actions -->
+      <h5>Admin Actions</h5>
+      <ul>
+        <li><a href="{% url 'add_teacher' %}">Add Teacher</a></li>
+        <li><a href="{% url 'add_student' %}">Add Student</a></li>
+        <li><a href="{% url 'manage_attendance' %}">Manage Attendance</a></li>
+      </ul>
+
+    {% elif user.role == "teacher" %}
+      <h5>Teacher Actions</h5>
+      <ul>
+        <li><strong>📚 My Courses</strong></li>
+        {% if data.my_courses %}
+          {% for course in data.my_courses %}
+            <li><a href="{% url 'course-detail' course.pk %}">- {{ course.title }}</a></li>
+            <li><a href="{% url 'manage_assignments' %}">📝 Manage Assignment</a></li>
+            <li><a href="{% url 'mark_attendance' %}?course={{ course.pk }}">📅 Mark Attendance</a></li>
+          {% endfor %}
+        {% else %}
+          <li>No courses assigned yet.</li>
+        {% endif %}
+        <li><a href="{% url 'grade_submissions' %}">🟢 Submissions To Grade</a></li>
+        <li><a href="{% url 'announcements:manage_announcements' %}">📢 Announcements</a></li>
+      </ul>
+
+    {% else %}
+      <h5>Student Actions</h5>
+      <ul>
+        <li><a href="{% url 'enrolled_courses' %}">View Courses</a></li>
+        <li><a href="{% url 'submit_assignment' assignment_id=1 %}">Submit Assignment</a></li>
+        <li><a href="{% url 'student_attendance' %}">Attendance</a></li>
+      </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

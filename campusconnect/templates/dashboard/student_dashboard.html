@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome, {{ student.get_full_name }}</h2>
+<p><strong>Email:</strong> {{ student.email }}</p>
+<p><strong>Role:</strong> {{ student.role }}</p>
+
+{% if student.profile_photo %}
+    <img src="{{ student.profile_photo.url }}" alt="Profile Photo" width="150">
+{% else %}
+    <p>No profile photo uploaded yet.</p>
+{% endif %}
+
+<hr>
+
+<h3>Update Profile Photo</h3>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+{% endblock %}

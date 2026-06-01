@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>📚 My Courses</h2>
+
+    {% if courses %}
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th>Course Code</th>
+                <th>Course Title</th>
+                <th>Description</th>
+                <th>Department</th>
+                <th>Teacher ID</th>
+                <th>Teacher Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.code }}</td>
+                <td>{{ course.title }}</td>
+                <td>{{ course.description }}</td>
+                <td>{{ course.department.name }}</td>
+                <td>{{ course.teacher_id }}</td>
+                <td>{{ course.teacher }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <div class="alert alert-info mt-3">No courses assigned yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

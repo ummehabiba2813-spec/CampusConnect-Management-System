@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3">Create Account</h4>
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <!-- Campus ID -->
+          <div class="form-group mb-2">
+            {{ form.username|as_crispy_field }}
+          </div>
+
+          <!-- Email -->
+          <div class="form-group mb-2">
+            {{ form.email|as_crispy_field }}
+          </div>
+
+          <!-- Role Dropdown -->
+          <div class="form-group mb-2">
+            {{ form.role|as_crispy_field }}
+          </div>
+
+          <!-- Password -->
+          <div class="form-group mb-2">
+            {{ form.password1|as_crispy_field }}
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group mb-3">
+            {{ form.password2|as_crispy_field }}
+          </div>
+
+          <button class="btn btn-success w-100 mt-2">Sign Up</button>
+        </form>
+        <hr>
+        <div class="text-center mt-3">
+          <p class="mb-0 text-muted">Already have an account? 
+            <a href="{% url 'login' %}" class="text-success fw-bold decoration-none">Login here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

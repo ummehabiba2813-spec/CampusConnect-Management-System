@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Manage Attendance{% endblock %}
+
+{% block content %}
+<h2>Manage Attendance</h2>
+<p>Here you can manage attendance for all courses.</p>
+
+<ul>
+  {% for course in courses %}
+    <li>{{ course.name }}</li>
+  {% empty %}
+    <li>No courses available</li>
+  {% endfor %}
+</ul>
+{% endblock %}

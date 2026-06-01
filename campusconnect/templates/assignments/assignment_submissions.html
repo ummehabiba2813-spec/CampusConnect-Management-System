@@ -1,0 +1,8 @@
+<h2>Submissions</h2>
+<ul>
+  {% for sub in submissions %}
+    <li>{{ sub.student.username }} - {{ sub.file.url }}</li>
+  {% empty %}
+    <li>No submissions yet.</li>
+  {% endfor %}
+</ul>

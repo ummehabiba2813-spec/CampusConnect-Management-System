@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Create Attendance Sheet</h2>
+
+<form method="post" id="attendance-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div id="students-section" style="display:none; margin-top:20px;">
+        <h3>Students</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Present</th>
+                </tr>
+            </thead>
+            <tbody id="students-table-body">
+                <!-- Students will load via AJAX -->
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Save Attendance Sheet</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // -------------------------
+    // Load teachers dynamically based on session
+    // -------------------------
+    const teacherSelect = $("#id_teacher");
+    const sessionInput = $("#id_session");
+
+    function loadTeachers() {
+        const session = sessionInput.val();
+        if (!session) {
+            teacherSelect.empty().append('<option value="">---------</option>');
+            return;
+        }
+
+        $.ajax({
+            url: "{% url 'get_teachers_by_session' %}",
+            data: { session: session },
+            success: function(data) {
+                teacherSelect.empty();
+                teacherSelect.append('<option value="">---------</option>');
+                data.forEach(function(t) {
+                    // sirf teacher ka name show hoga
+                    teacherSelect.append(`<option value="${t.id}">${t.name}</option>`);
+                });
+            }
+        });
+    }
+
+    sessionInput.on("input change", loadTeachers);
+
+    // -------------------------
+    // Load students dynamically based on class, section, session
+    // -------------------------
+    function loadStudents() {
+        const className = $("#id_class_name").val();
+        const section = $("#id_section").val();
+        const session = sessionInput.val();
+
+        if (className && section && session) {
+            fetch(`/attendance/get_students/?class_name=${className}&section=${section}&session=${session}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = $("#students-table-body");
+                    tbody.empty();
+
+                    if (data.length > 0) {
+                        data.forEach(stu => {
+                            tbody.append(`
+                                <tr>
+                                    <td>${stu.roll_no}</td>
+                                    <td>${stu.name}</td>
+                                    <td><input type="checkbox" name="present_${stu.id}"></td>
+                                </tr>
+                            `);
+                        });
+                    } else {
+                        tbody.append('<tr><td colspan="3">No students found</td></tr>');
+                    }
+
+                    $("#students-section").show();
+                });
+        } else {
+            $("#students-section").hide();
+        }
+    }
+
+    $("#id_class_name, #id_section, #id_session").on("input change", loadStudents);
+});
+</script>
+{% endblock %}

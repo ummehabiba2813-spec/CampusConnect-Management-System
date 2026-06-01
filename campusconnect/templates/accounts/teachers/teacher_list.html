@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- Add New Teacher Button -->
+
+
+<h2>Teacher List</h2>
+
+<!-- Add New Teacher Button (redirects to add_teacher page) -->
+<a href="{% url 'add_teacher' %}" 
+   style="margin-bottom: 15px; padding: 8px 15px; background-color: green; color: white; text-decoration: none; border-radius: 5px; display: inline-block;">
+   ➕ Add New Teacher
+</a>
+
+
+<!-- Add Teacher Form (hidden by default) -->
+<div id="addTeacherForm" style="display: none; margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px;">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div style="margin-bottom: 10px;">
+            {{ form.name.label_tag }}<br>
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            {{ form.qualification.label_tag }}<br>
+            {{ form.qualification }}
+            {{ form.qualification.errors }}
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            {{ form.subject.label_tag }}<br>
+            {{ form.subject }}
+            {{ form.subject.errors }}
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            {{ form.class_name.label_tag }}<br>
+            {{ form.class_name }}
+            {{ form.class_name.errors }}
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            {{ form.section.label_tag }}<br>
+            {{ form.section }}
+            {{ form.section.errors }}
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            {{ form.session.label_tag }}<br>
+            {{ form.session }}
+            {{ form.session.errors }}
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            {{ form.experience_years.label_tag }}<br>
+            {{ form.experience_years }}
+            {{ form.experience_years.errors }}
+        </div>
+
+        <button type="submit" style="padding: 8px 15px; background-color: green; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Add Teacher
+        </button>
+    </form>
+</div>
+
+<!-- Teachers Table (Session-wise) -->
+{% regroup teachers by session as session_list %}
+
+{% for session_group in session_list %}
+<h3>Session: {{ session_group.grouper }}</h3>
+<table border="1" cellpadding="5" cellspacing="0" style="width: 100%; margin-bottom: 20px;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>Name</th>
+            <th>Qualification</th>
+            <th>Subject</th>
+            <th>Class</th>
+            <th>Section</th>
+            <th>Experience (yrs)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for teacher in session_group.list %}
+        <tr>
+            <td>{{ teacher.name }}</td>
+            <td>{{ teacher.qualification }}</td>
+            <td>{{ teacher.subject }}</td>
+            <td>{{ teacher.class_name }}</td>
+            <td>{{ teacher.section }}</td>
+            <td>{{ teacher.experience_years }}</td>
+            <td>
+                <a href="{% url 'edit_teacher' teacher.id %}">Edit</a> |
+                <a href="{% url 'delete_teacher' teacher.id %}">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No teachers added yet for this session.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+
+<!-- Optional Back Button -->
+<a href="{% url 'dashboard' %}" 
+   style="display:inline-block; margin-top:15px; padding:8px 15px; background-color:green; color:white; border-radius:5px; text-decoration:none;">
+   ⬅️ Back to Dashboard
+</a>
+
+<!-- JS to toggle form -->
+
+{% endblock %}

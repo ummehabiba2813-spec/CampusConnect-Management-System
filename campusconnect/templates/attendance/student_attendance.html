@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📋 Your Attendance</h2>
+
+{% if attendance_data %}
+    {% for sheet, records in attendance_data.items %}
+        <h4>{{ sheet.course_name }} ({{ sheet.course_code }}) - {{ sheet.class_name }} {{ sheet.section }}</h4>
+
+        {% if records %}
+            <table class="table table-bordered table-striped table-secondary">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Total Classes</th>
+                        <th>Attended</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rec in records %}
+                    <tr>
+                        <td>{{ sheet.month }}</td>
+                        <td>{{ rec.total_classes }}</td>
+                        <td>{{ rec.attended_classes }}</td>
+                        <td>{{ rec.percentage }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No attendance uploaded yet for this course.</p>
+        {% endif %}
+    {% endfor %}
+{% else %}
+    <p>No attendance uploaded yet.</p>
+{% endif %}
+{% endblock %}

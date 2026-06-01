@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect | Teacher Portal</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body { transition: margin-left .3s; background-color: #f4f7f6; }
+    .sidebar {
+      height: 100%;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      background-color: #ffffff;
+      overflow-x: hidden;
+      padding-top: 80px;
+      transition: 0.3s;
+      z-index: 1000;
+      box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+    }
+    .sidebar.active { left: 0; }
+    .sidebar a {
+      display: block;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .sidebar a i { margin-right: 10px; width: 20px; text-align: center; }
+    .sidebar a:hover { background-color: #e8f5e9; color: #198754; }
+    
+    .content {
+      padding: 20px;
+      margin-top: 70px;
+      transition: margin-left .3s;
+    }
+    .content.shifted { margin-left: 250px; }
+    
+    .navbar { border-bottom: 2px solid #157347; }
+    .nav-role-badge { font-size: 0.85rem; letter-spacing: 0.5px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top shadow-sm">
+  <div class="container-fluid">
+    {% if request.resolver_match.url_name not in "login signup" %}
+    <button class="btn btn-outline-light me-3 border-0" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    {% endif %}
+    
+    <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">
+        <i class="fas fa-graduation-cap me-2"></i>CampusConnect
+    </a>
+
+    <div class="ms-auto d-flex align-items-center">
+      {% if user.is_authenticated %}
+        {% if request.resolver_match.url_name not in "login signup" %}
+        <div class="d-none d-md-block me-3 text-white border-end pe-3" style="border-color: rgba(255,255,255,0.3) !important;">
+          <small class="opacity-75">Welcome,</small>
+          <span class="fw-bold ms-1">{{ user.username }}</span>
+        </div>
+        
+        <span class="badge bg-light text-success me-3 px-3 py-2 nav-role-badge shadow-sm">
+           <i class="fas fa-user-shield me-1"></i> {{ user.role|title }}
+        </span>
+        {% endif %}
+        
+        <form action="{% url 'logout' %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm me-2 rounded-pill px-3">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-light btn-sm text-success fw-bold rounded-pill px-3">Sign Up</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+{% if request.resolver_match.url_name not in "login signup" %}
+  {% include "dashboard/_sidebar.html" %}
+{% endif %}
+
+<div class="content {% if request.resolver_match.url_name in 'login signup' %}m-0{% endif %}" id="content">
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const content = document.getElementById('content');
+
+  if(menuToggle && sidebar && content){
+    menuToggle.onclick = function() {
+      sidebar.classList.toggle('active');
+      content.classList.toggle('shifted');
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Add New Course</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- ✅ Course Code -->
+                        <div class="mb-3">
+                            <label for="id_code" class="form-label">Course Code</label>
+                            {{ form.code|add_class:"form-control" }}
+                        </div>
+                    
+                        <!-- ✅ Course Title -->
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label">Course Title</label>
+                            {{ form.title|add_class:"form-control" }}
+                        </div>
+                    
+                        <!-- ✅ Description + counter -->
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label">Description</label>
+                            {{ form.description|add_class:"form-control" }}
+                            <small id="desc-count" class="text-muted">0 / 500 characters</small>
+                        </div>
+                    
+                        <!-- ✅ Department -->
+                        <div class="mb-3">
+                            <label for="id_department" class="form-label">Department</label>
+                            {{ form.department|add_class:"form-select" }}
+                        </div>
+
+                        <!-- ✅ Teacher Name -->
+                        <div class="mb-3">
+                            <label for="id_teacher" class="form-label">Teacher Name</label>
+                            {{ form.teacher|add_class:"form-control" }}
+                        </div>
+
+                        <!-- ✅ Teacher ID -->
+                        <div class="mb-3">
+                            <label for="id_teacher_id" class="form-label">Teacher ID</label>
+                            {{ form.teacher_id|add_class:"form-control" }}
+                        </div>
+
+                        <!-- ✅ Class Name -->
+                        <div class="mb-3">
+                            <label for="id_class_name" class="form-label">Class Name</label>
+                            {{ form.class_name|add_class:"form-control" }}
+                            <small class="text-muted">e.g., 3, 4, 5</small>
+                        </div>
+
+                        <!-- ✅ Section -->
+                        <div class="mb-3">
+                            <label for="id_section" class="form-label">Section</label>
+                            {{ form.section|add_class:"form-control" }}
+                            <small class="text-muted">e.g., A, B, C (optional)</small>
+                        </div>
+
+                        <!-- ✅ Submit Button -->
+                        <button type="submit" class="btn btn-success w-100">Save</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'manage_courses' %}" class="btn btn-secondary">⬅ Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateCount(el) {
+    let count = el.value.length;
+    document.getElementById("desc-count").innerText = count + " / 500 characters";
+}
+document.addEventListener("DOMContentLoaded", function() {
+    let el = document.getElementById("id_description");
+    if (el) updateCount(el);
+});
+</script>
+{% endblock %}

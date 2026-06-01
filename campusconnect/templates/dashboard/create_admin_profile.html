@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4">
+<div class="card-header bg-success text-white text-center rounded-top-4">
+          <h3 class="mb-0">✨ Create Your Profile</h3>
+        </div>
+        <div class="card-body p-4">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label class="form-label fw-bold">Profile Picture</label>
+              {{ form.profile_picture }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Full Name</label>
+              {{ form.full_name }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">CNIC</label>
+              {{ form.cnic }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Qualification</label>
+              {{ form.qualification }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Phone</label>
+              {{ form.phone }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Address</label>
+              {{ form.address }}
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success btn-lg rounded-pill shadow-sm">
+  💾 Save Profile
+</button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

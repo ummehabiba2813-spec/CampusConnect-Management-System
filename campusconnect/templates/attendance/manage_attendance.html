@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Manage Attendance</h2>
+
+{% if sheets %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Date</th>
+                <th>Created By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sheet in sheets %}
+            <tr>
+                <td>{{ sheet.course.name }}</td>
+                <td>{{ sheet.created_at|date:"Y-m-d H:i" }}</td>
+                <td>{{ sheet.created_by.username }}</td>
+                <td>
+                    {% if is_admin %}
+                        <a href="{% url 'mark_attendance' sheet.id %}" class="btn btn-sm btn-primary">Edit</a>
+                    {% elif is_teacher %}
+                        {% if sheet.is_finalized %}
+                            <span class="text-muted">Already submitted</span>
+                        {% else %}
+                            <a href="{% url 'mark_attendance' sheet.id %}" class="btn btn-sm btn-success">Mark</a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No record exists yet.</p>
+{% endif %}
+
+{% if is_admin %}
+    <a href="{% url 'create_attendance_sheet' %}" class="btn btn-success">Add New Record</a>
+{% endif %}
+
+{% endblock %}

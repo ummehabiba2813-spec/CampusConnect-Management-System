@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Add New Announcement</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label">Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <!-- Body -->
+                        <div class="mb-3">
+                            <label for="id_body" class="form-label">Body</label>
+                            <textarea name="body" id="id_body" class="form-control" rows="4" maxlength="1000" 
+                                      oninput="updateCount(this)">{{ form.body.value }}</textarea>
+                            <small id="body-count" class="text-muted">0 / 1000 characters</small>
+                        </div>
+
+                        <!-- Created By (Text Input) -->
+                        <div class="mb-3">
+                            <label for="id_created_by" class="form-label">Created By</label>
+                            <input type="text" name="created_by" id="id_created_by" class="form-control" 
+                                   placeholder="Enter your name" value="{{ form.created_by.value|default:'' }}">
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Save</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                   <a href="{% url 'announcements:manage_announcements' %}" class="btn btn-secondary">⬅ Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateCount(el) {
+    let count = el.value.length;
+    document.getElementById("body-count").innerText = count + " / 1000 characters";
+}
+
+// Initialize counter on page load
+document.addEventListener("DOMContentLoaded", function() {
+    let el = document.getElementById("id_body");
+    if (el) updateCount(el);
+});
+</script>
+{% endblock %}

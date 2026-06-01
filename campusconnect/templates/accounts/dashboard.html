@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h3 class="card-title">{{ greeting }}</h3>
+    <p class="mb-0">Your role: <strong>{{ role }}</strong></p>
+
+    {% if not request.user.email_verified %}
+      <div class="alert alert-warning mt-3">
+        Email not verified. <a href="{% url 'resend-verification' %}">Resend verification</a>
+      </div>
+    {% endif %}
+
+    <hr>
+
+    {% if request.user.is_admin %}
+      {% include "dashboard/_admin.html" %}
+    {% elif request.user.is_teacher %}
+      {% include "dashboard/teacher_dashboard.html" %}
+    {% else %}
+      {% include "dashboard/_student.html" %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
